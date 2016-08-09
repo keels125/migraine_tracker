@@ -12,7 +12,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by Keely on 5/12/15.
+ * Use AsyncTask for getting the weather
  */
 public class HttpGetTask extends AsyncTask<String, Void, String> {
     public static final String FILTER_RESULT = "FILTER_RESULT";
@@ -68,7 +68,7 @@ public class HttpGetTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        Intent intentBrResult= new Intent(FILTER_RESULT);
+        Intent intentBrResult = new Intent(FILTER_RESULT);
         intentBrResult.putExtra(KEY_RESULT, result);
         ctx.sendBroadcast(intentBrResult);
         LocalBroadcastManager.getInstance(ctx).sendBroadcast(intentBrResult);

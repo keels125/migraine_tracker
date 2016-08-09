@@ -14,7 +14,7 @@ import hu.ait.android.keely.migrainetracker.Data.Food;
 import hu.ait.android.keely.migrainetracker.R;
 
 /**
- * Created by Keely on 5/13/15.
+ * Adapter class to hold the Food entries
  */
 public class FoodAdapter extends BaseAdapter {
     @Override
@@ -36,24 +36,24 @@ public class FoodAdapter extends BaseAdapter {
     private Context context;
     private List<Food> foodList;
 
-    public FoodAdapter(Context context, List<Food> foodList){
-        this.context=context;
-        this.foodList=foodList;
+    public FoodAdapter(Context context, List<Food> foodList) {
+        this.context = context;
+        this.foodList = foodList;
     }
 
-    public void addFood(Food food){
+    public void addFood(Food food) {
         foodList.add(food);
     }
 
-    public void updateFood(int index, Food food){
+    public void updateFood(int index, Food food) {
         foodList.set(index, food);
     }
 
-    public void removeItem(int index){
+    public void removeItem(int index) {
         foodList.remove(index);
     }
 
-    static class ViewHolder{
+    static class ViewHolder {
 
         TextView tvDesc;
         TextView tvDate;
@@ -64,18 +64,18 @@ public class FoodAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
         if (v == null) {
-            LayoutInflater inflater=LayoutInflater.from(context);
-            v=inflater.inflate(R.layout.row_foods, null);
-            ViewHolder holder=new ViewHolder();
-            holder.tvDesc= (TextView) v.findViewById(R.id.tvDesc);
-            holder.tvDate= (TextView) v.findViewById(R.id.tvDate);
+            LayoutInflater inflater = LayoutInflater.from(context);
+            v = inflater.inflate(R.layout.row_foods, null);
+            ViewHolder holder = new ViewHolder();
+            holder.tvDesc = (TextView) v.findViewById(R.id.tvDesc);
+            holder.tvDate = (TextView) v.findViewById(R.id.tvDate);
             v.setTag(holder);
 
         }
 
-        final Food food=foodList.get(position);
-        if (food!=null){
-            ViewHolder holder= (ViewHolder) v.getTag();
+        final Food food = foodList.get(position);
+        if (food != null) {
+            ViewHolder holder = (ViewHolder) v.getTag();
             holder.tvDesc.setText(food.getDesc());
             holder.tvDate.setText(food.getDate().toString());
 

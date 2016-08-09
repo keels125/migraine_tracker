@@ -33,7 +33,7 @@ import hu.ait.android.keely.migrainetracker.Data.HttpGetTask;
 import hu.ait.android.keely.migrainetracker.R;
 
 /**
- * Created by Keely on 5/12/15.
+ * Fragment that gets the weather based on user's last known location
  */
 public class FragmentWeather extends Fragment implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -53,7 +53,7 @@ public class FragmentWeather extends Fragment implements
     private String longitude;
 
     /*Using open api weather map*/
-    private final String URL_BASE=
+    private final String URL_BASE =
             "http://api.openweathermap.org/data/2.5/weather?q=";
     private final String API_KEY = "3a762d1a0b2e642dcf94080d1d6f0fbb";
     private String units; //F or C
@@ -61,32 +61,18 @@ public class FragmentWeather extends Fragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView= inflater.inflate(R.layout.fragment_weather, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_weather, container, false);
         return rootView;
 
-
     }
-
 
     @Override
     public void onConnected(Bundle connectionHint) {
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (mLastLocation!=null) {
-            latitude = String.valueOf(mLastLocation.getLatitude());
-            longitude = String.valueOf(mLastLocation.getLongitude());
+        if (mLastLocation != null) {
+            latitude = String.valueOf(Math.round(mLastLocation.getLatitude()));
+            longitude = String.valueOf(Math.round(mLastLocation.getLongitude()));
         }
-
-        //API must use integers, so trim our lat and long
-
-        int startIndex = latitude.indexOf(".");
-        int endIndex = latitude.length()-1;
-        String r = latitude.substring(startIndex, endIndex);
-        latitude=latitude.replace(r, "");
-
-        startIndex = longitude.indexOf(".");
-        endIndex = longitude.length()-1;
-        r = longitude.substring(startIndex, endIndex);
-        longitude=longitude.replace(r, "");
 
     }
 
@@ -111,25 +97,24 @@ public class FragmentWeather extends Fragment implements
         }
 
         super.onActivityCreated(savedInstanceState);
-        tvWeather= (TextView) getView().findViewById(R.id.tvWeather);
-        tvDesc= (TextView) getView().findViewById(R.id.tvDesc);
-        tvPressure=(TextView) getView().findViewById(R.id.tvPressure);
-        Button btnEnter= (Button) getView().findViewById(R.id.btnEnter);
-        rgpUnits= (RadioGroup) getView().findViewById(R.id.rgpUnits);
+        tvWeather = (TextView) getView().findViewById(R.id.tvWeather);
+        tvDesc = (TextView) getView().findViewById(R.id.tvDesc);
+        tvPressure = (TextView) getView().findViewById(R.id.tvPressure);
+        Button btnEnter = (Button) getView().findViewById(R.id.btnEnter);
+        rgpUnits = (RadioGroup) getView().findViewById(R.id.rgpUnits);
 
 
-        imageView= (ImageView) getView().findViewById(R.id.imageView);
+        imageView = (ImageView) getView().findViewById(R.id.imageView);
 
         btnEnter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String query=URL_BASE;
+                String query = URL_BASE;
 
                 /*Get units, F or C*/
-                int selectedId=rgpUnits.getCheckedRadioButtonId();
-                radioButton= (RadioButton) getView().findViewById(selectedId);
-                units=radioButton.getText().toString();
-
+                int selectedId = rgpUnits.getCheckedRadioButtonId();
+                radioButton = (RadioButton) getView().findViewById(selectedId);
+                units = radioButton.getText().toString();
 
                 String temp_units; //used for http call
 
@@ -137,14 +122,12 @@ public class FragmentWeather extends Fragment implements
                 if (units.equals("F")) {
                     System.out.println("here");
                     temp_units = "imperial";
-                }
-                else
-                   temp_units = "metric";
+                } else
+                    temp_units = "metric";
 
                 /*Use our last known location + openweathermap to get current weather*/
-                new HttpGetTask(getActivity().getApplicationContext()).execute(query+"lat="+latitude+"&lon="+longitude+
-                        "&units="+temp_units+"&APPID="+API_KEY);
-
+                new HttpGetTask(getActivity().getApplicationContext()).execute(query + "lat=" + latitude + "&lon=" + longitude +
+                        "&units=" + temp_units + "&APPID=" + API_KEY);
 
 
             }
@@ -182,7 +165,7 @@ public class FragmentWeather extends Fragment implements
                 getActivity()).unregisterReceiver(brWeatherReceiver);
     }
 
-    private BroadcastReceiver brWeatherReceiver= new BroadcastReceiver() {
+    private BroadcastReceiver brWeatherReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String rawResult = intent.getStringExtra(HttpGetTask.KEY_RESULT);
@@ -193,25 +176,25 @@ public class FragmentWeather extends Fragment implements
                 /*Parse the JSON file to get weather*/
                 JSONArray values = rawJson.getJSONArray("weather");
                 String tempMain = rawJson.getJSONObject("main").getString("temp");
-                String tempMin=rawJson.getJSONObject("main").getString("temp_min");
-                String tempMax=rawJson.getJSONObject("main").getString("temp_max");
-                String pressure=rawJson.getJSONObject("main").getString("pressure");
+                String tempMin = rawJson.getJSONObject("main").getString("temp_min");
+                String tempMax = rawJson.getJSONObject("main").getString("temp_max");
+                String pressure = rawJson.getJSONObject("main").getString("pressure");
 
 
-                String desc=values.getJSONObject(0).getString("description");
+                String desc = values.getJSONObject(0).getString("description");
 
                 /*Print out weather to the user*/
-                tvWeather.setText("The current weather is "+tempMain+" "+units+
-                        ". The min temp is: "+tempMin+" "+units+
-                        ". The max temp is: "+tempMax+" "+units+".");
+                tvWeather.setText("The current weather is " + tempMain + " " + units +
+                        ". The min temp is: " + tempMin + " " + units +
+                        ". The max temp is: " + tempMax + " " + units + ".");
 
-                tvDesc.setText("Description: "+desc+".");
-                tvPressure.setText("Pressure: "+pressure);
+                tvDesc.setText("Description: " + desc + ".");
+                tvPressure.setText("Pressure: " + pressure);
 
                 /*Use icon from openweathermap*/
-                String icon=values.getJSONObject(0).getString("icon");
+                String icon = values.getJSONObject(0).getString("icon");
                 Glide.with(getActivity().getApplicationContext()).load(
-                        "http://openweathermap.org/img/w/"+icon+".png").into(imageView);
+                        "http://openweathermap.org/img/w/" + icon + ".png").into(imageView);
 
 
             } catch (JSONException e) {

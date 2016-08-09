@@ -1,10 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".FoodListActivity" >
-    <item android:id="@+id/action_new_food"
+    tools:context=".FoodListActivity">
+    <item
+        android:id="@+id/action_new_food"
         android:title="New food"
         android:orderInCategory="100"
         app:showAsAction="always|withText"
-        android:icon="@android:drawable/ic_menu_add"/>
+        android:icon="@android:drawable/ic_menu_add" />
 </menu>

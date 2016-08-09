@@ -6,13 +6,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by Keely on 5/6/15.
+ * Store the Migraine list using Sugar ORM
  */
 public class Migraine extends SugarRecord<Migraine> implements Serializable {
 
-    /*Store the Migraine list using Sugar ORM*/
 
-    public Migraine(){
+
+    public Migraine() {
 
     }
 
@@ -23,7 +23,6 @@ public class Migraine extends SugarRecord<Migraine> implements Serializable {
     public void setDate(Date date) {
         this.date = date;
     }
-
 
 
     public String getDesc() {
@@ -47,13 +46,12 @@ public class Migraine extends SugarRecord<Migraine> implements Serializable {
     private String desc;
     private String dur;
 
-    public Migraine(String desc, String dur, Date date){
-        this.date=date;
+    public Migraine(String desc, String dur, Date date) {
+        this.date = date;
 
-        this.desc=desc;
-        this.dur=dur;
+        this.desc = desc;
+        this.dur = dur;
     }
 
-    
 
 }

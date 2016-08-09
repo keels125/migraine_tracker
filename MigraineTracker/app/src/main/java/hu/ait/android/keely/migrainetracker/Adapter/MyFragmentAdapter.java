@@ -10,7 +10,7 @@ import hu.ait.android.keely.migrainetracker.Fragment.FragmentWeather;
 import hu.ait.android.keely.migrainetracker.Fragment.FragmentMigraine;
 
 /**
- * Created by Keely on 5/4/15.
+ * Fragment Adapter to handle the 3 vies: migraines, weather, and food
  */
 public class MyFragmentAdapter extends FragmentPagerAdapter {
     public MyFragmentAdapter(FragmentManager fm) {
@@ -21,7 +21,7 @@ public class MyFragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
-        switch(i){
+        switch (i) {
             case 0:
                 return new FragmentMigraine();
             case 1:
@@ -36,7 +36,7 @@ public class MyFragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        switch (position){
+        switch (position) {
             case 0:
                 return "Migraines";
             case 1:

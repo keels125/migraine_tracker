@@ -13,7 +13,7 @@ import java.util.Date;
 import hu.ait.android.keely.migrainetracker.R;
 
 /**
- * Created by Keely on 5/13/15.
+ *  Activity that handles adding, deleting, and editing food entries
  */
 public class CreateFoodActivity extends Activity {
 
@@ -34,7 +34,7 @@ public class CreateFoodActivity extends Activity {
         setContentView(R.layout.activity_create_food);
 
         etDesc = (EditText) findViewById(R.id.etDesc);
-        tvDate= (TextView) findViewById(R.id.tvDate);
+        tvDate = (TextView) findViewById(R.id.tvDate);
 
         //Edit a food item in list
         if (getIntent().getExtras() != null &&
@@ -45,8 +45,6 @@ public class CreateFoodActivity extends Activity {
             foodToEditId = getIntent().getIntExtra(KEY_EDIT_ID, -1);
 
             etDesc.setText(foodToEdit.getDesc());
-
-
 
         }
 

@@ -27,7 +27,7 @@ import hu.ait.android.keely.migrainetracker.Data.Food;
 import hu.ait.android.keely.migrainetracker.R;
 
 /**
- * Created by Keely on 5/13/15.
+ * Listfragment that handles creating, updating, and deleting food entries
  */
 public class FragmentFood extends ListFragment {
 
@@ -41,18 +41,17 @@ public class FragmentFood extends ListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView= inflater.inflate(R.layout.fragment_food, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_food, container, false);
 
         return rootView;
-
 
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        List<Food> foodsList=Food.listAll(Food.class);
-        adapter=new FoodAdapter(activity, foodsList);
+        List<Food> foodsList = Food.listAll(Food.class);
+        adapter = new FoodAdapter(activity, foodsList);
         setListAdapter(adapter);
 
     }
@@ -68,7 +67,7 @@ public class FragmentFood extends ListFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch(resultCode) {
+        switch (resultCode) {
             case Activity.RESULT_OK:
                 if (requestCode == REQUEST_NEW_FOOD_CODE) { //Adding food to list
                     Food food = (Food) data.getSerializableExtra(
@@ -96,17 +95,17 @@ public class FragmentFood extends ListFragment {
 
                 }
                 break;
+
             case Activity.RESULT_CANCELED: //Cancelled
-                Toast.makeText(getActivity(), "Cancelled",Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Canceled", Toast.LENGTH_LONG).show();
                 break;
         }
     }
 
-    private void showCreateFoodActivity(){
-        Intent i=new Intent();
+    private void showCreateFoodActivity() {
+        Intent i = new Intent();
         i.setClass(getActivity(), CreateFoodActivity.class);
         startActivityForResult(i, REQUEST_NEW_FOOD_CODE);
-
 
     }
 
@@ -120,8 +119,8 @@ public class FragmentFood extends ListFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id=item.getItemId();
-        if (id==R.id.action_new_food){
+        int id = item.getItemId();
+        if (id == R.id.action_new_food) {
             showCreateFoodActivity();
             return true;
         }
@@ -138,27 +137,26 @@ public class FragmentFood extends ListFragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        if (item.getItemId()==CONTEXT_ACTION_DELETE){ //Delete food in the list
+        if (item.getItemId() == CONTEXT_ACTION_DELETE) { //Delete food in the list
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
-            Food food = (Food) adapter.getItem(info.position);
+            Food food = adapter.getItem(info.position);
             food.delete();
             adapter.removeItem(info.position);
             adapter.notifyDataSetChanged();
 
+        }
+        if (item.getItemId() == CONTEXT_ACTION_EDIT) { //Edit food in the list
 
-        } if (item.getItemId()==CONTEXT_ACTION_EDIT){ //Edit food in the list
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
             Food selectedFood = adapter.getItem(info.position);
-            Intent i= new Intent();
-            i.setClass(getActivity(),CreateFoodActivity.class);
+            Intent i = new Intent();
+            i.setClass(getActivity(), CreateFoodActivity.class);
             i.putExtra(CreateFoodActivity.KEY_EDIT_FOOD, selectedFood);
             i.putExtra(CreateFoodActivity.KEY_EDIT_ID, info.position);
             startActivityForResult(i, REQUEST_EDIT_FOOD_CODE);
-        }
 
-
-        else{
+        } else {
             return false;
         }
         return true;

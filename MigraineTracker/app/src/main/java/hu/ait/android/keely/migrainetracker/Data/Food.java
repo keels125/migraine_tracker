@@ -7,13 +7,13 @@ import java.sql.Time;
 import java.util.Date;
 
 /**
- * Created by Keely on 5/13/15.
+ * Store the food list using Sugar ORM
  */
 public class Food extends SugarRecord<Food> implements Serializable {
 
-    /*Store the food list using Sugar ORM*/
 
-    public Food(){
+
+    public Food() {
 
     }
 
@@ -24,7 +24,6 @@ public class Food extends SugarRecord<Food> implements Serializable {
     public void setDate(Date date) {
         this.date = date;
     }
-
 
 
     public String getDesc() {
@@ -39,8 +38,8 @@ public class Food extends SugarRecord<Food> implements Serializable {
 
     private String desc;
 
-    public Food(String desc, Date date){
-        this.desc=desc;
-        this.date=date;
+    public Food(String desc, Date date) {
+        this.desc = desc;
+        this.date = date;
     }
 }

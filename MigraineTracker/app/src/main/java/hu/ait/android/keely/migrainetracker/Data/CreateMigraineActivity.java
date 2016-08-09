@@ -12,13 +12,13 @@ import java.util.Date;
 import hu.ait.android.keely.migrainetracker.R;
 
 /**
- * Created by Keely on 5/9/15.
+ * Activity that handles adding, deleting, and editing food entries
  */
 public class CreateMigraineActivity extends Activity {
 
     public static final String KEY_EDIT_MIGRAINE = "KEY_EDIT_MIGRAINE";
     public static final String KEY_MIGRAINE = "KEY_MIGRAINE";
-    public static final String KEY_EDIT_ID="KEY_EDIT_ID";
+    public static final String KEY_EDIT_ID = "KEY_EDIT_ID";
 
     private boolean inEditMode = false;
     private EditText etDesc;
@@ -31,29 +31,28 @@ public class CreateMigraineActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_migraine);
 
-        etDesc= (EditText) findViewById(R.id.etDesc);
-        etDur= (EditText) findViewById(R.id.etDur);
+        etDesc = (EditText) findViewById(R.id.etDesc);
+        etDur = (EditText) findViewById(R.id.etDur);
 
-        if (getIntent().getExtras()!=null&&
+        if (getIntent().getExtras() != null &&
                 getIntent().getExtras().containsKey(KEY_EDIT_MIGRAINE)) {
 
-            inEditMode=true;
-            migraineToEdit= (Migraine) getIntent().getSerializableExtra(KEY_EDIT_MIGRAINE);
-            migraineToEditId=getIntent().getIntExtra(KEY_EDIT_ID, -1);
+            inEditMode = true;
+            migraineToEdit = (Migraine) getIntent().getSerializableExtra(KEY_EDIT_MIGRAINE);
+            migraineToEditId = getIntent().getIntExtra(KEY_EDIT_ID, -1);
 
             etDesc.setText(migraineToEdit.getDesc());
             etDur.setText(migraineToEdit.getDur());
         }
 
         //Update and Save if editing, otherwise just save
-        Button btnSave= (Button) findViewById(R.id.btnSave);
+        Button btnSave = (Button) findViewById(R.id.btnSave);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (inEditMode){
+                if (inEditMode) {
                     updateMigraine();
-                }
-                else{
+                } else {
                     saveMigraine();
                 }
             }
@@ -62,10 +61,9 @@ public class CreateMigraineActivity extends Activity {
 
     private void updateMigraine() {
         migraineToEdit.setDesc(etDesc.getText().toString());
-        migraineToEdit.setDur(etDur.getText().toString()+" hours");
+        migraineToEdit.setDur(etDur.getText().toString() + " hours");
 
-
-        Intent intentResult=new Intent();
+        Intent intentResult = new Intent();
         intentResult.putExtra(KEY_MIGRAINE, migraineToEdit);
         intentResult.putExtra(KEY_EDIT_ID, migraineToEditId);
         setResult(RESULT_OK, intentResult);
@@ -74,10 +72,10 @@ public class CreateMigraineActivity extends Activity {
 
 
     private void saveMigraine() {
-        Intent intentResult=new Intent();
+        Intent intentResult = new Intent();
         intentResult.putExtra(KEY_MIGRAINE,
                 new Migraine(etDesc.getText().toString(),
-                        etDur.getText().toString()+" hours",
+                        etDur.getText().toString() + " hours",
                         new Date(System.currentTimeMillis())));
         setResult(RESULT_OK, intentResult);
         finish();
