@@ -54,7 +54,7 @@ public class FragmentWeather extends Fragment implements
 
     /*Using open api weather map*/
     private final String URL_BASE =
-            "http://api.openweathermap.org/data/2.5/weather?q=";
+            "http://api.openweathermap.org/data/2.5/weather?";
     private final String API_KEY = "3a762d1a0b2e642dcf94080d1d6f0fbb";
     private String units; //F or C
 
@@ -120,13 +120,15 @@ public class FragmentWeather extends Fragment implements
 
                 /*Use imperial or metric in the http call*/
                 if (units.equals("F")) {
-                    System.out.println("here");
                     temp_units = "imperial";
                 } else
                     temp_units = "metric";
 
                 /*Use our last known location + openweathermap to get current weather*/
                 new HttpGetTask(getActivity().getApplicationContext()).execute(query + "lat=" + latitude + "&lon=" + longitude +
+                        "&units=" + temp_units + "&APPID=" + API_KEY);
+
+                System.out.println(query + "lat=" + latitude + "&lon=" + longitude +
                         "&units=" + temp_units + "&APPID=" + API_KEY);
 
 
