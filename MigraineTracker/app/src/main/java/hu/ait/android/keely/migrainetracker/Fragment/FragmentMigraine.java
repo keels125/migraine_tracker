@@ -67,7 +67,7 @@ public class FragmentMigraine extends ListFragment {
             case Activity.RESULT_OK:
                 if (requestCode == REQUEST_NEW_MIGRAINE_CODE) { //Add new Migraine to list
                     Migraine migraine = (Migraine) data.getSerializableExtra(
-                            CreateMigraineActivity.KEY_MIGRAINE);
+                            getString(R.string.KEY_MIGRAINE));
                     migraine.save();
 
                     adapter.addMigraine(migraine);
@@ -75,15 +75,15 @@ public class FragmentMigraine extends ListFragment {
                     Toast.makeText(getActivity(), "Migraine added to the list!", Toast.LENGTH_LONG).show();
 
                 } else if (requestCode == REQUEST_EDIT_MIGRAINE_CODE) { //Edit existing Migraine in list
-                    int index = data.getIntExtra(CreateMigraineActivity.KEY_EDIT_ID, -1);
+                    int index = data.getIntExtra(getString(R.string.KEY_EDIT_ID), -1);
                     if (index != -1) {
                         Migraine migraine = (Migraine) data.getSerializableExtra(
-                                CreateMigraineActivity.KEY_MIGRAINE);
+                                getString(R.string.KEY_MIGRAINE));
                         migraine.setId(adapter.getItem(index).getId());
                         migraine.save();
 
                         adapter.updateMigraine(index, (Migraine) data.getSerializableExtra(
-                                CreateMigraineActivity.KEY_MIGRAINE));
+                                getString(R.string.KEY_MIGRAINE)));
                         adapter.notifyDataSetChanged();
                         Toast.makeText(getActivity(), "Migraine updated", Toast.LENGTH_LONG).show();
 
@@ -105,7 +105,6 @@ public class FragmentMigraine extends ListFragment {
 
 
     }
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -149,8 +148,8 @@ public class FragmentMigraine extends ListFragment {
             Migraine selectedMigraine = adapter.getItem(info.position);
             Intent i = new Intent();
             i.setClass(getActivity(), CreateMigraineActivity.class);
-            i.putExtra(CreateMigraineActivity.KEY_EDIT_MIGRAINE, selectedMigraine);
-            i.putExtra(CreateMigraineActivity.KEY_EDIT_ID, info.position);
+            i.putExtra(getString(R.string.KEY_EDIT_MIGRAINE), selectedMigraine);
+            i.putExtra(getString(R.string.KEY_EDIT_ID), info.position);
             startActivityForResult(i, REQUEST_EDIT_MIGRAINE_CODE);
 
         } else {

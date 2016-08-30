@@ -2,7 +2,19 @@
 <resources>
 
     <string name="app_name">MigraineTracker</string>
+
     <string name="KEY_EDIT_FOOD">KEY_EDIT_FOOD</string>
+    <string name="KEY_FOOD">KEY_FOOD</string>
+    <string name="KEY_EDIT_ID">KEY_EDIT_ID</string>
+
+    <string name="KEY_EDIT_MIGRAINE">KEY_EDIT_MIGRAINE</string>
+    <string name="KEY_MIGRAINE">KEY_MIGRAINE</string>
+
+    <string name="FILTER_RESULT">FILTER_RESULT</string>
+    <string name="KEY_RESULT">KEY_RESULT</string>
+
+
+
     <string name="action_settings">Settings</string>
 
 </resources>

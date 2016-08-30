@@ -17,10 +17,6 @@ import hu.ait.android.keely.migrainetracker.R;
  */
 public class CreateFoodActivity extends Activity {
 
-    public static final String KEY_EDIT_FOOD = "KEY_EDIT_FOOD";
-    public static final String KEY_FOOD = "KEY_FOOD";
-    public static final String KEY_EDIT_ID = "KEY_EDIT_ID";
-
     private boolean inEditMode = false;
     private EditText etDesc;
     private TextView tvDate;
@@ -38,11 +34,11 @@ public class CreateFoodActivity extends Activity {
 
         //Edit a food item in list
         if (getIntent().getExtras() != null &&
-                getIntent().getExtras().containsKey(KEY_EDIT_FOOD)) {
+                getIntent().getExtras().containsKey(getString(R.string.KEY_EDIT_FOOD))) {
 
             inEditMode = true;
-            foodToEdit = (Food) getIntent().getSerializableExtra(KEY_EDIT_FOOD);
-            foodToEditId = getIntent().getIntExtra(KEY_EDIT_ID, -1);
+            foodToEdit = (Food) getIntent().getSerializableExtra(getString(R.string.KEY_EDIT_FOOD));
+            foodToEditId = getIntent().getIntExtra(getString(R.string.KEY_EDIT_ID), -1);
 
             etDesc.setText(foodToEdit.getDesc());
 
@@ -66,8 +62,8 @@ public class CreateFoodActivity extends Activity {
         foodToEdit.setDesc(etDesc.getText().toString());
 
         Intent intentResult = new Intent();
-        intentResult.putExtra(KEY_FOOD, foodToEdit);
-        intentResult.putExtra(KEY_EDIT_ID, foodToEditId);
+        intentResult.putExtra(getString(R.string.KEY_FOOD), foodToEdit);
+        intentResult.putExtra(getString(R.string.KEY_EDIT_ID), foodToEditId);
         setResult(RESULT_OK, intentResult);
         finish();
     }
@@ -75,7 +71,7 @@ public class CreateFoodActivity extends Activity {
 
     private void saveFood() {
         Intent intentResult = new Intent();
-        intentResult.putExtra(KEY_FOOD,
+        intentResult.putExtra(getString(R.string.KEY_FOOD),
                 new Food(etDesc.getText().toString(),
                         new Date(System.currentTimeMillis())));
 

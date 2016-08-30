@@ -113,8 +113,13 @@ public class FragmentWeather extends Fragment implements
 
                 /*Get units, F or C*/
                 int selectedId = rgpUnits.getCheckedRadioButtonId();
-                radioButton = (RadioButton) getView().findViewById(selectedId);
-                units = radioButton.getText().toString();
+
+                if (selectedId == -1) //handles the case of F or C not chosen, then default F
+                    units = "F";
+                else {
+                    radioButton = (RadioButton) getView().findViewById(selectedId);
+                    units = radioButton.getText().toString();
+                }
 
                 String temp_units; //used for http call
 
@@ -156,8 +161,7 @@ public class FragmentWeather extends Fragment implements
         super.onResume();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
                 brWeatherReceiver,
-                new IntentFilter(HttpGetTask.FILTER_RESULT)
-        );
+                new IntentFilter(getString(R.string.FILTER_RESULT)));
     }
 
     @Override
@@ -170,7 +174,7 @@ public class FragmentWeather extends Fragment implements
     private BroadcastReceiver brWeatherReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String rawResult = intent.getStringExtra(HttpGetTask.KEY_RESULT);
+            String rawResult = intent.getStringExtra(getString(R.string.KEY_RESULT));
 
             try {
                 JSONObject rawJson = new JSONObject(rawResult);

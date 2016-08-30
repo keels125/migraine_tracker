@@ -11,12 +11,13 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import hu.ait.android.keely.migrainetracker.R;
+
 /**
  * Use AsyncTask for getting the weather
  */
 public class HttpGetTask extends AsyncTask<String, Void, String> {
-    public static final String FILTER_RESULT = "FILTER_RESULT";
-    public static final String KEY_RESULT = "KEY_RESULT";
+
     private Context ctx;
 
     public HttpGetTask(Context ctx) {
@@ -68,8 +69,8 @@ public class HttpGetTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        Intent intentBrResult = new Intent(FILTER_RESULT);
-        intentBrResult.putExtra(KEY_RESULT, result);
+        Intent intentBrResult = new Intent(ctx.getString(R.string.FILTER_RESULT));
+        intentBrResult.putExtra(ctx.getString(R.string.KEY_RESULT), result);
         ctx.sendBroadcast(intentBrResult);
         LocalBroadcastManager.getInstance(ctx).sendBroadcast(intentBrResult);
 

@@ -71,7 +71,7 @@ public class FragmentFood extends ListFragment {
             case Activity.RESULT_OK:
                 if (requestCode == REQUEST_NEW_FOOD_CODE) { //Adding food to list
                     Food food = (Food) data.getSerializableExtra(
-                            CreateFoodActivity.KEY_FOOD);
+                            getString(R.string.KEY_FOOD));
                     food.save();
 
                     adapter.addFood(food);
@@ -79,15 +79,15 @@ public class FragmentFood extends ListFragment {
                     Toast.makeText(getActivity(), "Food added to the list!", Toast.LENGTH_LONG).show();
 
                 } else if (requestCode == REQUEST_EDIT_FOOD_CODE) { //Updating food already in list
-                    int index = data.getIntExtra(CreateFoodActivity.KEY_EDIT_ID, -1);
+                    int index = data.getIntExtra(getString(R.string.KEY_EDIT_ID), -1);
                     if (index != -1) {
                         Food food = (Food) data.getSerializableExtra(
-                                CreateFoodActivity.KEY_FOOD);
+                                getString(R.string.KEY_FOOD));
                         food.setId(adapter.getItem(index).getId());
                         food.save();
 
                         adapter.updateFood(index, (Food) data.getSerializableExtra(
-                                CreateFoodActivity.KEY_FOOD));
+                                getString(R.string.KEY_FOOD)));
                         adapter.notifyDataSetChanged();
                         Toast.makeText(getActivity(), "Food updated", Toast.LENGTH_LONG).show();
 
@@ -152,8 +152,8 @@ public class FragmentFood extends ListFragment {
             Food selectedFood = adapter.getItem(info.position);
             Intent i = new Intent();
             i.setClass(getActivity(), CreateFoodActivity.class);
-            i.putExtra(CreateFoodActivity.KEY_EDIT_FOOD, selectedFood);
-            i.putExtra(CreateFoodActivity.KEY_EDIT_ID, info.position);
+            i.putExtra(getString(R.string.KEY_EDIT_FOOD), selectedFood);
+            i.putExtra(getString(R.string.KEY_EDIT_ID), info.position);
             startActivityForResult(i, REQUEST_EDIT_FOOD_CODE);
 
         } else {

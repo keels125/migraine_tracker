@@ -16,10 +16,6 @@ import hu.ait.android.keely.migrainetracker.R;
  */
 public class CreateMigraineActivity extends Activity {
 
-    public static final String KEY_EDIT_MIGRAINE = "KEY_EDIT_MIGRAINE";
-    public static final String KEY_MIGRAINE = "KEY_MIGRAINE";
-    public static final String KEY_EDIT_ID = "KEY_EDIT_ID";
-
     private boolean inEditMode = false;
     private EditText etDesc;
     private EditText etDur;
@@ -35,11 +31,11 @@ public class CreateMigraineActivity extends Activity {
         etDur = (EditText) findViewById(R.id.etDur);
 
         if (getIntent().getExtras() != null &&
-                getIntent().getExtras().containsKey(KEY_EDIT_MIGRAINE)) {
+                getIntent().getExtras().containsKey(getString(R.string.KEY_EDIT_MIGRAINE))) {
 
             inEditMode = true;
-            migraineToEdit = (Migraine) getIntent().getSerializableExtra(KEY_EDIT_MIGRAINE);
-            migraineToEditId = getIntent().getIntExtra(KEY_EDIT_ID, -1);
+            migraineToEdit = (Migraine) getIntent().getSerializableExtra(getString(R.string.KEY_EDIT_MIGRAINE));
+            migraineToEditId = getIntent().getIntExtra(getString(R.string.KEY_EDIT_ID), -1);
 
             etDesc.setText(migraineToEdit.getDesc());
             etDur.setText(migraineToEdit.getDur());
@@ -64,8 +60,8 @@ public class CreateMigraineActivity extends Activity {
         migraineToEdit.setDur(etDur.getText().toString() + " hours");
 
         Intent intentResult = new Intent();
-        intentResult.putExtra(KEY_MIGRAINE, migraineToEdit);
-        intentResult.putExtra(KEY_EDIT_ID, migraineToEditId);
+        intentResult.putExtra(getString(R.string.KEY_MIGRAINE), migraineToEdit);
+        intentResult.putExtra(getString(R.string.KEY_EDIT_ID), migraineToEditId);
         setResult(RESULT_OK, intentResult);
         finish();
     }
@@ -73,10 +69,13 @@ public class CreateMigraineActivity extends Activity {
 
     private void saveMigraine() {
         Intent intentResult = new Intent();
-        intentResult.putExtra(KEY_MIGRAINE,
-                new Migraine(etDesc.getText().toString(),
-                        etDur.getText().toString() + " hours",
-                        new Date(System.currentTimeMillis())));
+        Migraine m = new Migraine(etDesc.getText().toString(),
+                etDur.getText().toString(),
+                new Date(System.currentTimeMillis()));
+        intentResult.putExtra(getString(R.string.KEY_MIGRAINE), m);
+
+        etDur.setText(etDur.getText().toString()+" hours");
+
         setResult(RESULT_OK, intentResult);
         finish();
     }
